@@ -86,7 +86,7 @@ class SystemConfiguration:
 
     @staticmethod
     def get_power_supply_info():
-        power_supply_path = "~/bin/sys/class/power_supply/"
+        power_supply_path = "/sys/class/power_supply/"
         battery = None
         ac_adapter = None
 
@@ -97,6 +97,8 @@ class SystemConfiguration:
                 if 'BAT' in item:
                     battery = item
                 elif 'AC' in item:
+                    ac_adapter = item
+                elif 'AD' in item:
                     ac_adapter = item
 
         return battery, ac_adapter
