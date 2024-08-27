@@ -154,7 +154,19 @@ class SystemConfiguration:
     def install_packages(package_names: list, type: str = "pacman"):
         for package in package_names:
             if type == "pacman":
-                os.system(f"sudo pacman -S --noconfirm {package}")
+                # Проверка, установлен ли пакет
+                check_installed = os.system(f"pacman -Q {package} > /dev/null 2>&1")
+                if check_installed == 0:
+                    Logger.add_record(f"Package already installed: {package}")
+                else:
+                    os.system(f"sudo pacman -S --noconfirm {package}")
+                    Logger.add_record(f"Installed: {package}")
+
             elif type == "aur":
-                os.system(f"yay -S --noconfirm {package}")
-            Logger.add_record(f"Installed: {package}")
+                # Проверка, установлен ли пакет
+                check_installed = os.system(f"yay -Q {package} > /dev/null 2>&1")
+                if check_installed == 0:
+                    Logger.add_record(f"Package already installed: {package}")
+                else:
+                    os.system(f"yay -S --noconfirm {package}")
+                    Logger.add_record(f"Installed: {package}")
