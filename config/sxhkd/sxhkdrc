@@ -1,6 +1,10 @@
 # TODO: add more useful hotkeys
 
-# reloads sxhkd configuration:
+# Show sxhkd binds help
+super + h
+    sh $HOME/bin/show_sxhkd_help.sh
+
+# Reload sxhkd configuration
 super + Escape + r
     pkill -USR1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config' -t 1500
 
@@ -8,7 +12,7 @@ super + Escape + r
 super + Return
     alacritty
 
-# Hide or Unhide Polybar
+# Hide or show Polybar
 super + p
 	sh $HOME/bin/toggle-polybar
 
@@ -17,29 +21,31 @@ super + w
 	sh $HOME/bin/random_wallpaper
 
 # Change language
-Alt_L + shift
-	sh $HOME/bin/change_language.sh
-
-Shift_L + alt
-	sh $HOME/bin/change_language.sh
+{Alt_L + shift, Shift_L + alt}
+    sh $HOME/bin/change_language.sh
     
 # Launch Rofi Menu
-super + {d,x}
-    {rofi -show drun,sh $HOME/bin/powermenu}
+super + d
+    rofi -show drun
 
+# Launch Rofi powermenu
+super + x
+    sh $HOME/bin/powermenu
+
+# TODO: review this hotkey
 # Launch Applications
-super + shift + {f,n,p,t,c,v,i,x,q,k,l}
-	{firefox, \
-	thunar, \
-	pavucontrol, \
-	telegram-desktop, \
-	code, \
-	virtualbox, \
-	firefox --private-window, \
-	sh $HOME/bin/xcolor-pick, \
-	sh $HOME/bin/bible, \
-	alacritty -e calcurse, \
-	sh $HOME/bin/screen-lock}
+#   super + shift + {f,n,p,t,c,v,i,x,q,k,l}
+#   	{firefox, \
+#   	thunar, \
+#   	pavucontrol, \
+#   	telegram-desktop, \
+#   	code, \
+#   	virtualbox, \
+#   	firefox --private-window, \
+#   	sh $HOME/bin/xcolor-pick, \
+#   	sh $HOME/bin/bible, \
+#   	alacritty -e calcurse, \
+#   	sh $HOME/bin/screen-lock}
      
 # Select window to close
 ctrl + super + alt + k
@@ -53,9 +59,13 @@ XF86Audio{RaiseVolume,LowerVolume,Mute}
 XF86MonBrightness{Up,Down}
     sh $HOME/bin/brightness{ --up, --down}
 
-# screenshot
-Print
+# Open screenshot tool
+ctrl + Print
     flameshot gui
+
+# Take a screenshot
+Print
+    flameshot full -p $HOME/Pictures
 
 #
 #
@@ -63,24 +73,24 @@ Print
 #
 #
 
-# quit/restart bspwm
+# Quit / Restart bspwm
 ctrl + shift + {q,r}
     bspc {quit,wm -r}
 
-# close and kill
+# Close and kill
 super + c
     bspc node -c
 
-# alternate between the tiled and monocle layout
+# Alternate between the tiled and monocle layout
 super + space
 	bspc node -t "~"{floating,tiled}
 
 
 #
-# state/flags
+# State / Flags
 #
 
-# set the window state
+# Set the window state
 super + {t,ctrl + t,f}
 	bspc node -t {tiled,pseudo_tiled,fullscreen}
 	
@@ -90,55 +100,54 @@ alt + {_,shift + }Tab
     bspc node -f {next.local,prev.local}
  
 #
-# focus/swap
+# Focus / Swap
 #
 
-
-# focus the last node/desktop
+# Focus the last node / desktop
 super + {grave,Tab}
 	bspc {node,desktop} -f last
 
-# send focus window to current desktop
+# Send focus window to current desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
 #
-# preselect
+# Preselect
 #
 
-# preselect the ratio
+# Preselect the ratio
 super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
 
-# cancel the preselection for the focused node
+# Cancel the preselection for the focused node
 super + ctrl + space
 	bspc node -p cancel
 
-# cancel the preselection for the focused desktop
+# Cancel the preselection for the focused desktop
 super + ctrl + shift + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
-# move/resize
+# Move / Resize
 #
 
-# Expanding windows
-super + control {h,j,k,l}
+# Expand window
+super + control {j,l,i,k}
     bspc node -z {left -20 0,right 20 0,top 0 -20,bottom 0 20} 
 
 # Send the window to another edge of the screen
-super + {_,alt + }{h,j,k,l}
+super + {_,alt + }{j,l,i,k}
     bspc node -{f,s} {west,south,north,east}
 
 # move a floating window
 # TODO: Вызывает конфликт с другими комбинациями 
-#super + x + {h,j,k,l}
+#super + x + {j,l,i,k}
 # 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
-# set the node flags
+# Set the node flags
 super + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
 
-# swap the current node and the biggest window
+# Swap the current node and the biggest window
 super + g
 	bspc node -s biggest.window
