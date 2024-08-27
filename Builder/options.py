@@ -50,4 +50,6 @@ class UserInterface:
             print(f"{idx}) {driver['name']}")
 
         choice = input("\nEnter the number of your choice: ")
+        if choice not in DRIVER_OPTIONS.keys():
+            choice = "4"
         return DRIVER_OPTIONS.get(choice, {"function": None})["function"]
