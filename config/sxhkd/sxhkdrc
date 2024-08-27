@@ -132,11 +132,11 @@ super + ctrl + shift + space
 #
 
 # Expand window
-super + control {j,l,i,k}
+super + control {j,k,i,l}
     bspc node -z {left -20 0,right 20 0,top 0 -20,bottom 0 20} 
 
 # Send the window to another edge of the screen
-super + {_,alt + }{j,l,i,k}
+super + {_,alt + }{j,k,i,l}
     bspc node -{f,s} {west,south,north,east}
 
 # move a floating window
