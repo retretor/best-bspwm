@@ -1,4 +1,6 @@
 import os
+import subprocess
+
 import packages
 
 from logger import Logger, LoggerStatus
@@ -168,3 +170,36 @@ class SystemConfiguration:
                 else:
                     os.system(f"yay -S --noconfirm {package}")
                     Logger.add_record(f"Installed: {package}")
+
+    @staticmethod
+    def clear_old_packages():
+        # TODO: Implement package removal
+        pass
+        # Logger.add_record("[+] Clearing old packages")
+        # base_packages = set(subprocess.check_output(["pacman", "-Qqg", "base", "base-devel"], text=True).splitlines())
+        # all_packages = set(subprocess.check_output(["pacman", "-Qq"], text=True).splitlines())
+        # old_packages = all_packages - base_packages
+        #
+        # if old_packages:
+        #     os.system(f"sudo pacman -Rns --noconfirm {' '.join(old_packages)}")
+        #     Logger.add_record(f"Removed old packages: {', '.join(old_packages)}")
+        # else:
+        #     Logger.add_record("No old packages to remove")
+        #
+        # Logger.add_record("[+] Old packages cleared")
+
+    @staticmethod
+    def clear_old_configs():
+        Logger.add_record("[+] Clearing old configuration files")
+
+        config_dirs = [
+            os.path.expanduser("~/.config"),
+            os.path.expanduser("~/.local"),
+            os.path.expanduser("~/.cache")
+        ]
+
+        for config_dir in config_dirs:
+            os.system(f"rm -rf {config_dir}/*")
+            Logger.add_record(f"Cleared configuration directory: {config_dir}")
+
+        Logger.add_record("[+] Old configuration files cleared")

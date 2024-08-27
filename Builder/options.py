@@ -2,6 +2,8 @@ import os
 from creators.builder import SystemConfiguration
 
 OPTIONS = {
+    "Clear old packages?": {"state": False, "function": "clear_old_packages"},
+    "Clear your old configs?": {"state": False, "function": "clear_old_configs"},
     "Configure folders?": {"state": False, "function": "configure_folders"},
     "Update Pacman DataBase?": {"state": False, "function": "update_pacman_database"},
     "Install base packages?": {"state": False, "function": "install_base_packages"},
