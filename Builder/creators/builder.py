@@ -116,8 +116,8 @@ class SystemConfiguration:
         Logger.add_record("[+] Installing BSPWM Dependencies")
         os.system("git -C /tmp clone https://aur.archlinux.org/yay.git")
         os.system("cd /tmp/yay && makepkg -si")
-        SystemConfiguration.install_packages(packages.BASE_PACKAGES, "pacman")
-        SystemConfiguration.install_packages(packages.AUR_PACKAGES, "aur")
+        SystemConfiguration.install_packages(packages.BASE_PACKAGES)
+        SystemConfiguration.install_packages(packages.AUR_PACKAGES)
         os.system("timeout 10 firefox --headless")
         os.system("sh firefox/install.sh")
         Logger.add_record(f"[+] Firefox styles installed", status=LoggerStatus.SUCCESS)
@@ -152,24 +152,52 @@ class SystemConfiguration:
             SystemConfiguration.install_packages(packages.INTEL_PACKAGES)
         Logger.add_record("[+] Done")
 
-    @staticmethod
-    def install_packages(package_names: list, type: str = "pacman"):
-        for package in package_names:
-            if type == "pacman":
-                check_installed = os.system(f"pacman -Q {package} > /dev/null 2>&1")
-                if check_installed == 0:
-                    Logger.add_record(f"Package already installed: {package}")
-                else:
-                    os.system(f"sudo pacman -S --noconfirm {package}")
-                    Logger.add_record(f"Installed: {package}")
+    # @staticmethod
+    # def install_packages(package_names: list, type: str = "pacman"):
+    #     for package in package_names:
+    #         if type == "pacman":
+    #             check_installed = os.system(f"pacman -Q {package} > /dev/null 2>&1")
+    #             if check_installed == 0:
+    #                 Logger.add_record(f"Package already installed: {package}")
+    #             else:
+    #                 os.system(f"sudo pacman -S --noconfirm {package}")
+    #                 Logger.add_record(f"Installed: {package}")
+    #
+    #         elif type == "aur":
+    #             check_installed = os.system(f"yay -Q {package} > /dev/null 2>&1")
+    #             if check_installed == 0:
+    #                 Logger.add_record(f"Package already installed: {package}")
+    #             else:
+    #                 os.system(f"yay -S --noconfirm {package}")
+    #                 Logger.add_record(f"Installed: {package}")
 
-            elif type == "aur":
-                check_installed = os.system(f"yay -Q {package} > /dev/null 2>&1")
-                if check_installed == 0:
-                    Logger.add_record(f"Package already installed: {package}")
+    @staticmethod
+    def install_packages(package_names: list):
+        for package in package_names:
+            check_installed = os.system(f"pacman -Q {package} > /dev/null 2>&1")
+            if check_installed == 0:
+                Logger.add_record(f"Package already installed: {package}")
+                return
+
+            pacman_check = os.system(f"pacman -Si {package} > /dev/null 2>&1")
+            if pacman_check == 0:
+                pacman_install = os.system(f"sudo pacman -S --noconfirm {package}")
+                if pacman_install == 0:
+                    Logger.add_record(f"Installed via pacman: {package}")
                 else:
-                    os.system(f"yay -S --noconfirm {package}")
-                    Logger.add_record(f"Installed: {package}")
+                    Logger.add_record(f"Failed to install via pacman: {package}", status=LoggerStatus.ERROR)
+                return
+
+            yay_check = os.system(f"yay -Si {package} > /dev/null 2>&1")
+            if yay_check == 0:
+                yay_install = os.system(f"yay -S --noconfirm {package}")
+                if yay_install == 0:
+                    Logger.add_record(f"Installed via AUR: {package}")
+                else:
+                    Logger.add_record(f"Failed to install via AUR: {package}", status=LoggerStatus.ERROR)
+                return
+
+            Logger.add_record(f"Package not found in pacman or AUR: {package}", status=LoggerStatus.ERROR)
 
     @staticmethod
     def clear_old_packages():
