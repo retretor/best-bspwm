@@ -10,8 +10,8 @@ OPTIONS = {
 
 DRIVER_OPTIONS = {
     "1": {"name": "Nvidia Drivers", "function": "install_nvidia_drivers"},
-    "2": {"name": "AMD Drivers", "function": "build_amd_drivers"},
-    "3": {"name": "Intel Drivers", "function": "build_intel_drivers"},
+    "2": {"name": "AMD Drivers", "function": "install_amd_drivers"},
+    "3": {"name": "Intel Drivers", "function": "install_intel_drivers"},
     "4": {"name": "None", "function": None}
 }
 
