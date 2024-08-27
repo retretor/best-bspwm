@@ -133,7 +133,7 @@ super + ctrl + shift + space
 
 # Expand window
 super + control {j,k,i,l}
-    bspc node -z {left -20 0,right 20 0,top 0 -20,bottom 0 20} 
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # Send the window to another edge of the screen
 super + {_,alt + }{j,k,i,l}

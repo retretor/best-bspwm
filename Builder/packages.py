@@ -18,11 +18,11 @@ DEV_PACKAGES = [
     "timeshift", "pinta", "kdenlive", "filezilla", "ghex", "chromium", "keepassxc", "audacity", "gufw", "python-pywal",
     "bleachbit", "veracrypt", "homebank", "gtkhash", "touche", "dconf-editor", "neovim", "tmux", "youtube-dl", "code",
     "cowsay", "deluge-gtk", "flameshot", "obsidian", "python-pip", "bpython", "ipython", "cloc", "jetbrains-toolbox",
-    "telegram-desktop", "discord", "steam", "zoom"
+    "telegram-desktop", "discord", "steam"
 ]
 
 AUR_PACKAGES = [
-    "cava", "i3lock-color", "ptpython"
+    "cava", "i3lock-color", "ptpython", "zoom"
 ]
 
 GNOME_OFFICIAL_TOOLS = [
