@@ -5,6 +5,7 @@ OPTIONS = {
     "Clear old packages?": {"state": False, "function": "clear_old_packages"},
     "Clear your old configs?": {"state": False, "function": "clear_old_configs"},
     "Configure folders?": {"state": False, "function": "configure_folders"},
+    "Configure touchpad?": {"state": False, "function": "configure_touchpad"},
     "Update Pacman DataBase?": {"state": False, "function": "update_pacman_database"},
     "Install base packages?": {"state": False, "function": "install_base_packages"},
     "Install dev packages?": {"state": False, "function": "install_dev_packages"},

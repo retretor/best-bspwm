@@ -87,6 +87,37 @@ class SystemConfiguration:
         Logger.add_record("[+] Done")
 
     @staticmethod
+    def configure_touchpad():
+        Logger.add_record("[+] Configuring touchpad")
+
+        config_content = """
+            Section "InputClass"
+                Identifier "touchpad"
+                Driver "libinput"
+                MatchIsTouchpad "on"
+                Option "Tapping" "on"
+                Option "TappingButtonMap" "lrm"
+                Option "ClickMethod" "clickfinger"
+                Option "NaturalScrolling" "on"
+                Option "HorizontalScrolling" "on"
+                Option "ScrollMethod" "twofinger"
+            EndSection
+            """
+        config_dir = "/etc/X11/xorg.conf.d/"
+        config_file = os.path.join(config_dir, "30-touchpad.conf")
+
+        try:
+            if not os.path.exists(config_dir):
+                os.makedirs(config_dir)
+
+            with open(config_file, 'w') as file:
+                file.write(config_content)
+
+            Logger.add_record(f"[+] Touchpad configuration written to {config_file}")
+        except Exception as e:
+            Logger.add_record(f"Failed to configure touchpad: {str(e)}", status=LoggerStatus.ERROR)
+
+    @staticmethod
     def get_power_supply_info():
         power_supply_path = "/sys/class/power_supply/"
         battery = None
